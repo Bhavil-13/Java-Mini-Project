@@ -3,6 +3,12 @@ import ecomm.Globals;
 import ecomm.Product;
 public class DerivedProduct extends Product {
 	
+	private int quantity;
+	private float price;
+	private String productId;
+	private String name;
+	private Globals.Category category;
+	
 	public  Globals.Category getCategory(){
 		return category;
 	}
@@ -40,11 +46,6 @@ public class DerivedProduct extends Product {
 	}
 	
 	
-	private int quantity;
-	private float price;
-	private String productId;
-	private String name;
-	private Globals.Category category;
 	
 
 }

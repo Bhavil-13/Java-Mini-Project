@@ -1,3 +1,6 @@
+#include<algorithm>
+#include<bits/stdc++.h>
+#include"Product.h"
 #include<iostream>
 #include<fstream>
 #include<vector>
@@ -33,10 +36,72 @@ void DemoPortal::getResponseFromPlatform(){
 	in.close();
 }
 
-void DemoPortal::showOutput(){
+void DemoPortal::showOutput(string command){
+	stringstream ss(command);
+    string word;
+	vector<string> inputList;
+    while(ss>>word){
+		inputList.push_back(word);
+	}
+
     // 1. take the list in a vector
+	if(inputList[0] == "List"){
+		ifstream in;
+		vector<string> dataInPlat2Portal;
+		string tempStr;
+		in.open("PlatformToPortal.txt");
+		while(in.eof() == 0){
+			in>>tempStr;
+			stringstream ss(tempStr);
+			string word;
+			while(ss>>word){
     // 2. sort the list as per the given order using comparator sort
-    // 3. then show the sorted vector as output
+				if(inputList[1] == "Book"){
+					if(inputList[2] == "Name"){
+						sort(bookList.begin(), bookList.end(), Name);				
+					}
+					else{
+						sort(bookList.begin(), bookList.end(), Price);
+					}
+				}
+				else{
+					if(inputList[2] == "Name"){
+						sort(mobileList.begin(), mobileList.end(), Name);				
+					}
+					else{
+						sort(mobileList.begin(), mobileList.end(), Price);
+					}
+				}
+			}
+			stringifyLists();
+			if(inputList[1] == "Book"){
+				for(auto it : this->bookStrList){
+					//print it's string
+					cout<<it;
+				}
+			}
+			else{
+				for(auto it : this->mobileStrList){
+					//print it's string
+					cout<<it;
+				}
+			}
+	// 3. then show the sorted vector as output
+		}
+		in.close();
+	}
+	else if(inputList[0] == "Buy"){
+		string productID = inputList[1];
+		int quantity = 0;
+		stringstream convToInteger(inputList[2]);
+		convToInteger>>quantity;
+		// Check if we have enough of the product in the protal, if tyes, give Success output, else failure
+		
+	}
+	else if(inputList[0] == "Check"){
+		this->outputsSentToFile.clear();
+		this->getResponseFromPlatform();
+	}	
 }
 
 void DemoPortal::takeInputs(){
@@ -44,9 +109,12 @@ void DemoPortal::takeInputs(){
 	string inputFirst = "";
 	string portalID = "", requestID = "", action = "", category = "", productID = "";
 	int quantity;
-	// add and End statement 
+	// add an End statement 
 	while(inputFirst != "End"){
 		cin>>portalID>>requestID>>action;
+		if(portalID == "End"){
+			break;
+		}
 		if(action == "Start"){
 			Input inputObj = Input(portalID, requestID, action);
 			this->inputsFromPlatformList.push_back(inputObj.stringifiedInput);
@@ -64,7 +132,34 @@ void DemoPortal::takeInputs(){
 			Input inputObj = Input(portalID, requestID, action, productID, quantity);
 			this->inputsFromPlatformList.push_back(inputObj.stringifiedInput);
 			// where ProductID was the value sent by the Seller earlier
-		}
-		
+		}		
 	}
+}
+
+void DemoPortal::stringifyLists(){
+	// here, I will be making a list of the products, and store them in 2 vectors, 1 for mobile and 1 for books.
+	this->bookStrList.clear();
+	this->mobileStrList.clear();
+	for(auto it : this->bookList){
+		this->bookStrList.push_back(it.stringifiedProduct);
+	}
+	for(auto it : this->mobileList){
+		this->mobileStrList.push_back(it.stringifiedProduct);
+	}
+}
+
+int Name(Product* p1, Product* p2){
+    return p1->getName().compare(p2->getName());
+}
+
+int Price(Product* p1, Product* p2){
+    if(p1->getPrice() == p2->getPrice()) {
+		return 0;
+	}
+	else if(p1->getPrice() > p2->getPrice()){
+        return 1;
+    }
+	else{
+        return -1;
+    }
 }

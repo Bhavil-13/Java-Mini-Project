@@ -5,6 +5,7 @@
 #include<fstream>
 #include<vector>
 #include<string>
+#include"Product.h"
 
 using namespace std;
 
@@ -12,37 +13,46 @@ class Input{
 public:
 	string portalID = "", requestID = "", action = "", category = "", productID = "";
 	int quantity = 0;
+	int reqID = 0, prodID = 0;
 	string stringifiedInput = "";
 	Input(string portalID, string requestID, string action, string productID, int quantity){
 		this->portalID = portalID;
 		this->requestID = requestID;
 		this->action = action;
+		this->prodID++;
+		this->reqID++;
 		this->productID = productID;
 		this->quantity = quantity;
-		this->stringifiedInput = portalID + " " + requestID + " " + action + " " + productID + " " + to_string(quantity);
+		this->stringifiedInput = portalID + " " + to_string(this->reqID) + " " + action + " " + productID + " " + to_string(quantity);
 		// for Buy
 	}
 	Input(string portalID, string requestID, string action){
 		this->portalID = portalID;
 		this->requestID = requestID;
 		this->action = action;
-		this->stringifiedInput = portalID + " " + requestID + " " + action;
+		this->reqID++;
+		this->prodID++;
+		this->stringifiedInput = portalID + " " + to_string(this->reqID) + " " + action;
 		// for Start 
 	}
 	Input(string portalID, string requestID, string action, string category){
-		// for List 
 		this->portalID = portalID;
 		this->requestID = requestID;
+		this->prodID++;
 		this->action = action;
 		this->category = category;
-		this->stringifiedInput = portalID + " " + requestID + " " + action + " " + category;
+		this->reqID++;
+		this->stringifiedInput = portalID + " " + to_string(this->reqID) + " " + action + " " + category;
+		// for List 
 	}
 };
 
 class DemoPortal{
+public:
     vector<string> inputsFromPlatformList;
     vector<string> outputsSentToFile;
-public:
+	vector<Product> bookList, mobileList;
+	vector<string> bookStrList, mobileStrList;
     // It has the following features:
     // 1. Take file input from platform's file
     // 2. Give file input to portal's file
@@ -50,8 +60,9 @@ public:
     
     void writeToFile();
     void getResponseFromPlatform();
-    void showOutput();
+    void showOutput(string command);
     void takeInputs();
+	void stringifyLists();
 };
 
 #endif

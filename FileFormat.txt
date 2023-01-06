@@ -39,4 +39,3 @@ For Buy, the response should be
 <PortalID> <ResponseID> Success 
 or
 <PortalID> <ResponseID> Failure
-
