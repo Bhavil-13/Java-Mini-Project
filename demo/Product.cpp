@@ -3,8 +3,8 @@
 
 using namespace std;
 
-Globals.Category getCategory(){
-		return category;
+Globals::Category Product::getCategory(){
+		return this->category;
 }
 		
 string Product::getName() {

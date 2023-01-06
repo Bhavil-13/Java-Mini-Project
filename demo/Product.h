@@ -11,9 +11,9 @@ public:
 	float price;
 	string productId;
 	string name;
-	Globals.Category category;
+	Globals::Category category;
 	// common queries to get category, unique name, price, and number available
-	Globals.Category getCategory();
+	Globals::Category getCategory();
 	string getName();
 	string getProductID();
 	float getPrice();
