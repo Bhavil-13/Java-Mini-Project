@@ -6,6 +6,7 @@
 #include<vector>
 #include<string>
 #include"DemoPortal.h"
+#include"SellerBhavil.h"
 
 using namespace std;
 
@@ -14,7 +15,7 @@ void DemoPortal::writeToFile(){
     // taking the inputs and writing them all to the PortalToPlatform.txt file
     // the inputs are stored in inputsFromPlatformList
 	ofstream out;
-	out.open("PortalToPlatform.txt");
+	out.open("PortalToPlatform.txt", ios::app);
 	for(auto it : inputsFromPlatformList){
         out<<it;
     }
@@ -95,8 +96,12 @@ void DemoPortal::showOutput(string command){
 		int quantity = 0;
 		stringstream convToInteger(inputList[2]);
 		convToInteger>>quantity;
-		// Check if we have enough of the product in the protal, if tyes, give Success output, else failure
-		
+		string commandStr = "\n" + productID + " " + to_string(quantity);
+		ofstream out;
+		out.open("PortalToPlatform.txt", ios::app);
+		out<<commandStr;
+		out.close();
+		// Check if we have enough of the product in the protal, if tyes, give Success output, else failure	
 	}
 	else if(inputList[0] == "Check"){
 		this->outputsSentToFile.clear();

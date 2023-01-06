@@ -48,7 +48,6 @@ public:
 };
 
 class DemoPortal{
-public:
     vector<string> inputsFromPlatformList;
     vector<string> outputsSentToFile;
 	vector<Product> bookList, mobileList;
@@ -62,7 +61,23 @@ public:
     void getResponseFromPlatform();
     void showOutput(string command);
     void takeInputs();
+	void disp(){
+		for(auto it : this->outputsSentToFile){
+			cout<<it;
+		}
+	}
 	void stringifyLists();
+public:
+	void processUserCommand(string command){
+		showOutput(command);
+		writeToFile();
+	}
+	void checkResponse(){
+		// checks for pending responses (in PortalToPlatform)
+		// Displays response
+		getResponseFromPlatform();
+		disp();
+	}
 };
 
 #endif

@@ -1,12 +1,14 @@
 #include"DemoPortal.h"
+#include<iostream>
+#include<string>
 
 using namespace std;
 
 int main(){
 	DemoPortal portalObj;
-	portalObj.writeToFile();
-	portalObj.getResponseFromPlatform();
-	portalObj.showOutput();
-
+	string command;
+	getline(cin, command);
+	portalObj.processUserCommand(command);
+	portalObj.checkResponse();
 	return 0;
 }
